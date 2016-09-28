@@ -3,7 +3,7 @@ The JMeter application is open source software to load test functional behavior 
 
 ### Tags
 * `3.0-20160928`, `latest` ([Dockerfile](https://github.com/mosaic-hgw/jMeter/blob/master/Dockerfile))
-  - from centos:7
+  - from: centos:7
   - added: Apache jMeter v3.0 (sha1-check)
   - added: jMeter-Plugins Standard v1.4.0 (sha1-check)
   - added: MySQL-Connector v5.1.39 (sha1-check)
@@ -27,3 +27,10 @@ The JMeter application is open source software to load test functional behavior 
     mosaicgreifswald/jmeter
   ```
 
+* with custom parameters
+  ```sh
+  docker run \
+    -v /path/to/your/tests:/entrypoint-jmeter-testfiles \
+    mosaicgreifswald/jmeter \
+    bin/jmeter -n -t /entrypoint-jmeter-testfiles/my-test.jmx
+  ```
