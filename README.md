@@ -27,6 +27,14 @@ The JMeter application is open source software to load test functional behavior 
     mosaicgreifswald/jmeter
   ```
 
+* with wait for a specified port
+  ```sh
+  docker run \
+    -v /path/to/your/tests:/entrypoint-jmeter-testfiles \
+    mosaicgreifswald/jmeter \
+    ./wait-for-it.sh service-ip:port && ./run.sh
+  ```
+
 * with custom parameters
   ```sh
   docker run \
