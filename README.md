@@ -8,7 +8,7 @@ The JMeter application is open source software to load test functional behavior 
   - added: jMeter-Plugins Standard v1.4.0 (sha1-check)
   - added: MySQL-Connector v5.1.39 (sha1-check)
   - added: wait-for-it.sh (sha1-check)
-  - created: scriopt `run.sh` to start jmeter-application and analyze log contains errors
+  - created: script `run.sh` to start jmeter-application and analyze log contains errors
   - created: user `jmeter` to execute jmeter-application
 
 ### Run this Image
