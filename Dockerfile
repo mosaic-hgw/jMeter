@@ -25,10 +25,10 @@ MAINTAINER Ronny Schuldt <ronny.schuldt@uni-greifswald.de>
 
 ENV JAVA_VERSION					1.8.0
 
-ENV JMETER_VERSION					3.0
+ENV JMETER_VERSION					3.1
 ENV JMETER_DOWNLOAD_URL				https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-${JMETER_VERSION}.zip
 ENV JMETER_PATH						/opt/jmeter
-ENV JMETER_SHA1						197ec833318efadac7bc6553a926d2026eb132c1
+ENV JMETER_SHA1						027275f8a1d472ffea5b43f5ab9ac1c033260a13
 ENV JMETER_USER						jmeter
 ENV ENTRY_JMETER_TESTS				/entrypoint-jmeter-testfiles
 ENV ENTRY_JMETER_PROPERTIES			/entrypoint-jmeter-properties
@@ -38,10 +38,10 @@ ENV JMETER_PLUGINS_DOWNLOAD_URL		http://jmeter-plugins.org/downloads/file/JMeter
 ENV JMETER_PLUGINS_PATH				${JMETER_PATH}
 ENV JMETER_PLUGINS_SHA1				3af5352bfb29b38a73f8620f2af89f842e3666f2
 
-ENV MYSQL_CONNECTOR_VERSION			5.1.39
+ENV MYSQL_CONNECTOR_VERSION			5.1.40
 ENV MYSQL_CONNECTOR_DOWNLOAD_URL	http://central.maven.org/maven2/mysql/mysql-connector-java/${MYSQL_CONNECTOR_VERSION}/mysql-connector-java-${MYSQL_CONNECTOR_VERSION}.jar
 ENV MYSQL_CONNECTOR_PATH			${JMETER_PATH}/lib
-ENV MYSQL_CONNECTOR_SHA1			4617fe8dc8f1969ec450984b0b9203bc8b7c8ad5
+ENV MYSQL_CONNECTOR_SHA1			ef2a2ceab1735eaaae0b5d1cccf574fb7c6e1c52
 
 ENV WAIT_FOR_IT_DOWNLOAD_URL		https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh
 ENV WAIT_FOR_IT_SHA1				d6bdd6de4669d72f5a04c34063d65c33b8a5450c
@@ -93,7 +93,7 @@ RUN	yum update -y && \
 	groupadd -r ${JMETER_USER} && \
 	useradd -r -g ${JMETER_USER} -d ${JMETER_PATH} -s /dev/false -c "User for Apache-jMeter" ${JMETER_USER} && \
 	chown -R ${JMETER_USER}:${JMETER_USER} ${JMETER_PATH} ${ENTRY_JMETER_TESTS} ${ENTRY_JMETER_PROPERTIES} && \
-	chmod u+x ${JMETER_PATH}/wait-for-it.sh ${JMETER_PATH}/run.sh ${JMETER_PATH}/bin/jmeter && \
+	chmod u+x -R ${JMETER_PATH} && \
 	chmod 777 ${ENTRY_JMETER_TESTS} ${ENTRY_JMETER_PROPERTIES}
 
 # change user and work-directory
