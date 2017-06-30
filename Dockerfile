@@ -3,8 +3,8 @@ FROM centos:7
 # ###license-information-start###
 # jMeter
 # __
-# Copyright (C) 2009 - 2016 MOSAIC - Institute for Community Medicine
-# University Medicine of Greifswald - mosaic@uni-greifswald.de
+# Copyright (C) 2009 - 2017 Institute for Community Medicine
+# University Medicine of Greifswald - mosaic-project@uni-greifswald.de
 # __
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as published by
