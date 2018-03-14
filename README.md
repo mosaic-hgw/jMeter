@@ -2,7 +2,10 @@
 The JMeter application is open source software to load test functional behavior and measure performance.
 
 ### Tags
-* `3.1-20161129`, `latest` ([Dockerfile](https://github.com/mosaic-hgw/jMeter/blob/master/Dockerfile))
+* `4.0-20180301`, `4.0`, `latest` ([Dockerfile](https://github.com/mosaic-hgw/jMeter/blob/master/Dockerfile))
+  - updated: Apache jMeter v4.0
+  - updated: MySQL-connector v5.1.46
+* `3.1-20161129`
   - updated: Apache jMeter v3.1
   - updated: MySQL-Connector v5.1.40
 * `3.0-20160928`
