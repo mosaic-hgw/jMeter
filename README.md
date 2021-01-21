@@ -2,13 +2,18 @@
 The JMeter application is open source software to load test functional behavior and measure performance.
 
 ### Tag-History
-* `5.3-20201127`, `5.3`, `latest` ([Dockerfile](https://github.com/mosaic-hgw/jMeter/blob/master/Dockerfile))
+* `5.4-20210121`, `latest` ([Dockerfile](https://github.com/mosaic-hgw/jMeter/blob/master/Dockerfile))
+  - from:     alpine:3.13
+  - updated:  Apache jMeter v5.4.1
+  - updated:  java-json v20201115
+  - updated:  MySQL-connector v8.0.23
+* `5.3-20201127`
   - from:     alpine:3.12
   - updated:  Apache jMeter v5.3
   - updated:  MySQL-connector v8.0.22
   - updated:  wait-for-it.sh from Feb 01, 2020
-  - added:    java-json v20201115
-* `4.0-20180314`, `4.0`
+  - added:    java-json v20200518
+* `4.0-20180314`
   - updated:  Apache jMeter v4.0
   - updated:  MySQL-connector v5.1.46
 * `3.1-20161129`
