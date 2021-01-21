@@ -1,9 +1,9 @@
-FROM alpine:3.12
+FROM alpine:3.13
 
 # ###license-information-start###
 # The MOSAIC-Project - WildFly with MySQL-Connector
 # __
-# Copyright (C) 2009 - 2020 Institute for Community Medicine
+# Copyright (C) 2009 - 2021 Institute for Community Medicine
 # University Medicine of Greifswald - mosaic-project@uni-greifswald.de
 # __
 # This program is free software: you can redistribute it and/or modify
@@ -25,25 +25,25 @@ MAINTAINER Ronny Schuldt <ronny.schuldt@uni-greifswald.de>
 # variables
 ENV MAVEN_REPOSITORY                https://repo1.maven.org/maven2
 
-ENV JMETER_VERSION					5.3
+ENV JMETER_VERSION					5.4.1
 ENV JMETER_DOWNLOAD_URL				https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-${JMETER_VERSION}.zip
 ENV JMETER_PATH						/opt/jmeter
-ENV JMETER_SHA512					e84dfe57397ca5bd9ed5d38c85a1081373b047ff9d41658a64a09dcf8329c25aaa7c23b5bba1b492c3d12edce7f141504baba8071b05df760303c1873ee46ddb
+ENV JMETER_SHA512					78e41e5fbbc3d09319b9c2593286a6326b3cb111377944b2f41650a0c5adcb131a38898e7b856bd034557015d6e6b150d4ad585de780d622e28e5e62eb8bf82d
 
 ENV JMETER_PLUGINS_VERSION			1.4.0
 ENV JMETER_PLUGINS_DOWNLOAD_URL		http://jmeter-plugins.org/downloads/file/JMeterPlugins-Standard-${JMETER_PLUGINS_VERSION}.zip
 ENV JMETER_PLUGINS_PATH				${JMETER_PATH}
 ENV JMETER_PLUGINS_SHA256			3f740bb9b9a7120ed72548071cd46a5f92929e1ab196acc1b2548549090a2148
 
-ENV JAVA_JSON_VERSION				20201518
+ENV JAVA_JSON_VERSION				20201115
 ENV	JAVA_JSON_DOWNLOAD_URL			${MAVEN_REPOSITORY}/org/json/json/${JAVA_JSON_VERSION}/java-${JAVA_JSON_VERSION}.jar
 ENV JAVA_JSON_PATH					${JMETER_PATH}/lib
 ENV JAVA_JSON_SHA256				e791ccfcfee9c0d299d07474d9bfcbfcbebf1181323be601220c8a823062ab99
 
-ENV MYSQL_CONNECTOR_VERSION         8.0.22
+ENV MYSQL_CONNECTOR_VERSION         8.0.23
 ENV MYSQL_CONNECTOR_DOWNLOAD_URL    ${MAVEN_REPOSITORY}/mysql/mysql-connector-java/${MYSQL_CONNECTOR_VERSION}/mysql-connector-java-${MYSQL_CONNECTOR_VERSION}.jar
 ENV MYSQL_CONNECTOR_PATH			${JMETER_PATH}/lib
-ENV MYSQL_CONNECTOR_SHA256          5019defbd12316295e97a6e88f2a9b07f118345a4e982710bba232e499b22f4f
+ENV MYSQL_CONNECTOR_SHA256          ff7d5b402afd39c12787471505a33a304103b238ec1b7a44e8936d3329da7535
 
 ENV WAIT_FOR_IT_COMMIT_HASH         ed77b63706ea721766a62ff22d3a251d8b4a6a30
 ENV WAIT_FOR_IT_DOWNLOAD_URL        https://raw.githubusercontent.com/vishnubob/wait-for-it/${WAIT_FOR_IT_COMMIT_HASH}/wait-for-it.sh
