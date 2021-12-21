@@ -1,4 +1,4 @@
-FROM alpine:3.13
+FROM alpine:3.15.0
 
 # ###license-information-start###
 # The MOSAIC-Project - WildFly with MySQL-Connector
@@ -23,31 +23,31 @@ FROM alpine:3.13
 MAINTAINER Ronny Schuldt <ronny.schuldt@uni-greifswald.de>
 
 # variables
-ENV MAVEN_REPOSITORY                https://repo1.maven.org/maven2
+ENV MAVEN_REPOSITORY				https://repo1.maven.org/maven2
 
-ENV JMETER_VERSION					5.4.1
+ENV JMETER_VERSION					5.4.2
 ENV JMETER_DOWNLOAD_URL				https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-${JMETER_VERSION}.zip
 ENV JMETER_PATH						/opt/jmeter
-ENV JMETER_SHA512					78e41e5fbbc3d09319b9c2593286a6326b3cb111377944b2f41650a0c5adcb131a38898e7b856bd034557015d6e6b150d4ad585de780d622e28e5e62eb8bf82d
+ENV JMETER_SHA512					968e2b8c6b8ea393ae83d021c67adf36657a561b37e577ca499bc73becc3a4fd49989069d94fdc2d26f23fd223b3c769426a39d5a928502f16f3a2889955bbdc
 
 ENV JMETER_PLUGINS_VERSION			1.4.0
 ENV JMETER_PLUGINS_DOWNLOAD_URL		http://jmeter-plugins.org/downloads/file/JMeterPlugins-Standard-${JMETER_PLUGINS_VERSION}.zip
 ENV JMETER_PLUGINS_PATH				${JMETER_PATH}
 ENV JMETER_PLUGINS_SHA256			3f740bb9b9a7120ed72548071cd46a5f92929e1ab196acc1b2548549090a2148
 
-ENV JAVA_JSON_VERSION				20201115
-ENV	JAVA_JSON_DOWNLOAD_URL			${MAVEN_REPOSITORY}/org/json/json/${JAVA_JSON_VERSION}/java-${JAVA_JSON_VERSION}.jar
-ENV JAVA_JSON_PATH					${JMETER_PATH}/lib
+ENV JAVA_JSON_VERSION				20211205
+ENV JAVA_JSON_DOWNLOAD_URL			${MAVEN_REPOSITORY}/org/json/json/${JAVA_JSON_VERSION}/java-${JAVA_JSON_VERSION}.jar
+ENV JAVA_JSON_PATH					${JMETER_PATH}/lib/json-${JAVA_JSON_VERSION}.jar
 ENV JAVA_JSON_SHA256				e791ccfcfee9c0d299d07474d9bfcbfcbebf1181323be601220c8a823062ab99
 
-ENV MYSQL_CONNECTOR_VERSION         8.0.23
-ENV MYSQL_CONNECTOR_DOWNLOAD_URL    ${MAVEN_REPOSITORY}/mysql/mysql-connector-java/${MYSQL_CONNECTOR_VERSION}/mysql-connector-java-${MYSQL_CONNECTOR_VERSION}.jar
-ENV MYSQL_CONNECTOR_PATH			${JMETER_PATH}/lib
-ENV MYSQL_CONNECTOR_SHA256          ff7d5b402afd39c12787471505a33a304103b238ec1b7a44e8936d3329da7535
+ENV MYSQL_CONNECTOR_VERSION			8.0.27
+ENV MYSQL_CONNECTOR_DOWNLOAD_URL	${MAVEN_REPOSITORY}/mysql/mysql-connector-java/${MYSQL_CONNECTOR_VERSION}/mysql-connector-java-${MYSQL_CONNECTOR_VERSION}.jar
+ENV MYSQL_CONNECTOR_PATH			${JMETER_PATH}/lib/mysql-connector-java-${MYSQL_CONNECTOR_VERSION}.jar
+ENV MYSQL_CONNECTOR_SHA256			d670e85fa1075a80d91b8f17dbd620d76717bc20c74ab4aea8356e37a8545ffe
 
-ENV WAIT_FOR_IT_COMMIT_HASH         ed77b63706ea721766a62ff22d3a251d8b4a6a30
-ENV WAIT_FOR_IT_DOWNLOAD_URL        https://raw.githubusercontent.com/vishnubob/wait-for-it/${WAIT_FOR_IT_COMMIT_HASH}/wait-for-it.sh
-ENV WAIT_FOR_IT_SHA256              2ea7475e07674e4f6c1093b4ad6b0d8cbbc6f9c65c73902fb70861aa66a6fbc0
+ENV WAIT_FOR_IT_COMMIT_HASH			ed77b63706ea721766a62ff22d3a251d8b4a6a30
+ENV WAIT_FOR_IT_DOWNLOAD_URL		https://raw.githubusercontent.com/vishnubob/wait-for-it/${WAIT_FOR_IT_COMMIT_HASH}/wait-for-it.sh
+ENV WAIT_FOR_IT_SHA256				2ea7475e07674e4f6c1093b4ad6b0d8cbbc6f9c65c73902fb70861aa66a6fbc0
 
 ENV JAVA_VERSION					11
 ENV LOCAL_USER						jmeter
@@ -74,7 +74,7 @@ RUN echo && echo && \
 	\
 	echo "  |____ 4. create folders and permissions" && \
 	mkdir -p ${ENTRY_JMETER_TESTS} ${ENTRY_JMETER_PROPERTIES} ${ENTRY_JMETER_LOGS} ${TEMP_PATH} && \
-    chown -R ${LOCAL_USER}:${LOCAL_USER} ${ENTRY_JMETER_TESTS} ${ENTRY_JMETER_PROPERTIES} ${ENTRY_JMETER_LOGS} && \
+	chown -R ${LOCAL_USER}:${LOCAL_USER} ${ENTRY_JMETER_TESTS} ${ENTRY_JMETER_PROPERTIES} ${ENTRY_JMETER_LOGS} && \
 	chmod 777 ${ENTRY_JMETER_TESTS} ${ENTRY_JMETER_PROPERTIES} ${ENTRY_JMETER_LOGS} && \
 	\
 	echo "  |____ 5. install apache-jmeter" && \
@@ -96,41 +96,61 @@ RUN echo && echo && \
 	\
 	echo "  |____ 7. install org.json as jmeter-plugin" && \
 	echo "  |  |____ 1. download json-${JAVA_JSON_VERSION}.jar" && \
-	(curl -LsSo ${JMETER_PATH}/lib/json-${JAVA_JSON_VERSION}.jar ${JAVA_JSON_DOWNLOAD_URL} 2> install.log || (>&2 cat install.log && echo && exit 1)) && \
+	(curl -LsSo ${JAVA_JSON_PATH} ${JAVA_JSON_DOWNLOAD_URL} 2> install.log || (>&2 cat install.log && echo && exit 1)) && \
 	echo "  |  |____ 2. check checksum" && \
-	(sha256sum ${JMETER_PATH}/lib/json-${JAVA_JSON_VERSION}.jar | grep ${JAVA_JSON_SHA256} > /dev/null || (>&2 echo "sha256sum failed $(sha256sum ${JMETER_PATH}/lib/json-${JAVA_JSON_VERSION}.jar)" && exit 1)) && \
+	(sha256sum ${JAVA_JSON_PATH} | grep ${JAVA_JSON_SHA256} > /dev/null || (>&2 echo "sha256sum failed $(sha256sum ${JAVA_JSON_PATH})" && exit 1)) && \
 	\
 	echo "  |____ 8. install mysql-connector jmeter-plugin" && \
 	echo "  |  |____ 1. download mysql-connector" && \
-	(curl -Lso ${MYSQL_CONNECTOR_PATH}/mysql-connector-java-${MYSQL_CONNECTOR_VERSION}.jar ${MYSQL_CONNECTOR_DOWNLOAD_URL} 2> install.log || (>&2 cat install.log && echo && exit 1)) && \
+	(curl -Lso ${MYSQL_CONNECTOR_PATH} ${MYSQL_CONNECTOR_DOWNLOAD_URL} 2> install.log || (>&2 cat install.log && echo && exit 1)) && \
 	echo "  |  |____ 2. check checksum" && \
-	(sha256sum ${MYSQL_CONNECTOR_PATH}/mysql-connector-java-${MYSQL_CONNECTOR_VERSION}.jar | grep ${MYSQL_CONNECTOR_SHA256} > /dev/null || (>&2 echo "sha256sum failed $(sha256sum ${MYSQL_CONNECTOR_PATH}/mysql-connector-java-${MYSQL_CONNECTOR_VERSION}.jar)" && exit 1)) && \
+	(sha256sum ${MYSQL_CONNECTOR_PATH} | grep ${MYSQL_CONNECTOR_SHA256} > /dev/null || (>&2 echo "sha256sum failed $(sha256sum ${MYSQL_CONNECTOR_PATH})" && exit 1)) && \
 	\
-	echo "  |____ 9. install wait-for-it" && \
+	echo "  |____ 9. update vulnerable libraries" && \
+	I=0 && while read -r LINE; do I=`expr $I + 1`; \
+		echo "  |  |____ $I. $(echo $LINE | cut -d' ', -f1)" && \
+		rm ${JMETER_PATH}/lib/$(echo $LINE | cut -d' ', -f1)-*.jar && \
+		curl -Lso ${JMETER_PATH}/lib/$(echo $LINE | cut -d' ', -f1)-$(echo $LINE | cut -d' ', -f2).jar ${MAVEN_REPOSITORY}/$(echo $LINE | cut -d' ', -f3) ; \
+	done < <( \
+		echo httpclient 4.5.13 org/apache/httpcomponents/httpclient/4.5.13/httpclient-4.5.13.jar && \
+		echo jackson-databind 2.10.5.1 com/fasterxml/jackson/core/jackson-databind/2.10.5.1/jackson-databind-2.10.5.1.jar && \
+		echo json-smart 2.4.1 net/minidev/json-smart/2.4.1/json-smart-2.4.1.jar && \
+		echo jsoup 1.14.2 org/jsoup/jsoup/1.14.2/jsoup-1.14.2.jar && \
+		echo log4j-1.2-api 2.17.0 org/apache/logging/log4j/log4j-1.2-api/2.17.0/log4j-1.2-api-2.17.0.jar && \
+		echo log4j-api 2.17.0 org/apache/logging/log4j/log4j-api/2.17.0/log4j-api-2.17.0.jar && \
+		echo log4j-core 2.17.0 org/apache/logging/log4j/log4j-core/2.17.0/log4j-core-2.17.0.jar && \
+		echo log4j-slf4j-impl 2.17.0 org/apache/logging/log4j/log4j-slf4j-impl/2.17.0/log4j-slf4j-impl-2.17.0.jar && \
+		echo neo4j-java-driver 4.4.2 org/neo4j/driver/neo4j-java-driver/4.4.2/neo4j-java-driver-4.4.2.jar && \
+		echo tika-core 1.2.6 org/apache/tika/tika-core/1.2.6/tika-core-1.2.6.jar && \
+		echo tika-parsers 1.2.6 org/apache/tika/tika-parsers/1.2.6/tika-parsers-1.2.6.jar && \
+		echo xstream 1.4.18 com/thoughtworks/xstream/xstream/1.4.18/xstream-1.4.18.jar \
+	) ; \
+	\
+	echo "  |____ 10. install wait-for-it" && \
 	echo "  |  |____ 1. download wait-for-it" && \
 	(curl -Lso ${JMETER_PATH}/wait-for-it.sh ${WAIT_FOR_IT_DOWNLOAD_URL} 2> install.log || (>&2 cat install.log && echo && exit 1)) && \
 	echo "  |  |____ 2. check checksum" && \
 	(sha256sum ${JMETER_PATH}/wait-for-it.sh | grep ${WAIT_FOR_IT_SHA256} > /dev/null || (>&2 echo "sha256sum failed $(sha256sum ${JMETER_PATH}/wait-for-it.sh)" && exit 1)) && \
 	\
-	echo "  |____ 10. create run.sh" && \
+	echo "  |____ 11. create run.sh" && \
 	{ \
-        echo '#!/bin/bash'; \
-        echo; \
-        echo 'TEST_FILES=$(ls -d '${ENTRY_JMETER_TESTS}'/*.jmx 2> /dev/null | sort)'; \
-        echo 'PROPERTIES=$(ls -d '${ENTRY_JMETER_PROPERTIES}'/*.* 2> /dev/null | sort)'; \
-        echo '[ -z "${TEST_FILES}" ] || TEST_FILES="-t ${TEST_FILES}"'; \
-        echo '[ -z "${PROPERTIES}" ] || PROPERTIES="-q ${PROPERTIES}"'; \
-        echo; \
-        echo 'bin/jmeter -n ${TEST_FILES} ${PROPERTIES} -j '${ENTRY_JMETER_LOGS}'/jmeter.log | tee '${ENTRY_JMETER_LOGS}'/stdout.log'; \
-        echo; \
-        echo 'while read LINE ; do'; \
-        echo '    if echo ${LINE} | grep -qE "summary =[^E]+Err: +[1-9]+ \(" ; then'; \
-        echo '        exit 1'; \
-        echo '    fi'; \
-        echo 'done < '${ENTRY_JMETER_LOGS}'/stdout.log'; \
+		echo '#!/bin/bash'; \
+		echo; \
+		echo 'TEST_FILES=$(ls -d '${ENTRY_JMETER_TESTS}'/*.jmx 2> /dev/null | sort)'; \
+		echo 'PROPERTIES=$(ls -d '${ENTRY_JMETER_PROPERTIES}'/*.* 2> /dev/null | sort)'; \
+		echo '[ -z "${TEST_FILES}" ] || TEST_FILES="-t ${TEST_FILES}"'; \
+		echo '[ -z "${PROPERTIES}" ] || PROPERTIES="-q ${PROPERTIES}"'; \
+		echo; \
+		echo 'bin/jmeter -n ${TEST_FILES} ${PROPERTIES} -j '${ENTRY_JMETER_LOGS}'/jmeter.log | tee '${ENTRY_JMETER_LOGS}'/stdout.log'; \
+		echo; \
+		echo 'while read LINE ; do'; \
+		echo '    if echo ${LINE} | grep -qE "summary =[^E]+Err: +[1-9]+ \(" ; then'; \
+		echo '        exit 1'; \
+		echo '    fi'; \
+		echo 'done < '${ENTRY_JMETER_LOGS}'/stdout.log'; \
 	} > ${JMETER_PATH}/run.sh && \
 	\
-    chown -R ${LOCAL_USER}:${LOCAL_USER} ${JMETER_PATH} && \
+	chown -R ${LOCAL_USER}:${LOCAL_USER} ${JMETER_PATH} && \
 	chmod u+x -R ${JMETER_PATH} && \
 	ln -s ${JMETER_PATH}/bin/jmeter /usr/bin/jmeter && \
 	rm -rf ${TEMP_PATH}
