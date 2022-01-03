@@ -25,10 +25,10 @@ MAINTAINER Ronny Schuldt <ronny.schuldt@uni-greifswald.de>
 # variables
 ENV MAVEN_REPOSITORY				https://repo1.maven.org/maven2
 
-ENV JMETER_VERSION					5.4.2
+ENV JMETER_VERSION					5.4.3
 ENV JMETER_DOWNLOAD_URL				https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-${JMETER_VERSION}.zip
 ENV JMETER_PATH						/opt/jmeter
-ENV JMETER_SHA512					968e2b8c6b8ea393ae83d021c67adf36657a561b37e577ca499bc73becc3a4fd49989069d94fdc2d26f23fd223b3c769426a39d5a928502f16f3a2889955bbdc
+ENV JMETER_SHA512					1ebc2a179d724aa58ff8b8f1c2146204208aeeeb8ba2b53168d6700be2d516a204b7e65dd94a6a0e3b84906fd33a97fcf2f2e6e44fb9b8fafa017c0c1856e1d8
 
 ENV JMETER_PLUGINS_VERSION			1.4.0
 ENV JMETER_PLUGINS_DOWNLOAD_URL		http://jmeter-plugins.org/downloads/file/JMeterPlugins-Standard-${JMETER_PLUGINS_VERSION}.zip
@@ -116,13 +116,12 @@ RUN echo && echo && \
 		echo jackson-databind 2.10.5.1 com/fasterxml/jackson/core/jackson-databind/2.10.5.1/jackson-databind-2.10.5.1.jar && \
 		echo json-smart 2.4.1 net/minidev/json-smart/2.4.1/json-smart-2.4.1.jar && \
 		echo jsoup 1.14.2 org/jsoup/jsoup/1.14.2/jsoup-1.14.2.jar && \
-		echo log4j-1.2-api 2.17.0 org/apache/logging/log4j/log4j-1.2-api/2.17.0/log4j-1.2-api-2.17.0.jar && \
-		echo log4j-api 2.17.0 org/apache/logging/log4j/log4j-api/2.17.0/log4j-api-2.17.0.jar && \
-		echo log4j-core 2.17.0 org/apache/logging/log4j/log4j-core/2.17.0/log4j-core-2.17.0.jar && \
-		echo log4j-slf4j-impl 2.17.0 org/apache/logging/log4j/log4j-slf4j-impl/2.17.0/log4j-slf4j-impl-2.17.0.jar && \
-		echo neo4j-java-driver 4.4.2 org/neo4j/driver/neo4j-java-driver/4.4.2/neo4j-java-driver-4.4.2.jar && \
-		echo tika-core 1.2.6 org/apache/tika/tika-core/1.2.6/tika-core-1.2.6.jar && \
-		echo tika-parsers 1.2.6 org/apache/tika/tika-parsers/1.2.6/tika-parsers-1.2.6.jar && \
+		echo log4j-1.2-api 2.17.1 org/apache/logging/log4j/log4j-1.2-api/2.17.1/log4j-1.2-api-2.17.1.jar && \
+		echo log4j-api 2.17.1 org/apache/logging/log4j/log4j-api/2.17.1/log4j-api-2.17.1.jar && \
+		echo log4j-core 2.17.1 org/apache/logging/log4j/log4j-core/2.17.1/log4j-core-2.17.1.jar && \
+		echo log4j-slf4j-impl 2.17.1 org/apache/logging/log4j/log4j-slf4j-impl/2.17.1/log4j-slf4j-impl-2.17.1.jar && \
+		echo tika-core 1.26 org/apache/tika/tika-core/1.26/tika-core-1.26.jar && \
+		echo tika-parsers 1.26 org/apache/tika/tika-parsers/1.26/tika-parsers-1.26.jar && \
 		echo xstream 1.4.18 com/thoughtworks/xstream/xstream/1.4.18/xstream-1.4.18.jar \
 	) ; \
 	\
